@@ -160,7 +160,13 @@ public class AguiAgentAdapter {
     }
 
     private RuntimeContext buildRuntimeContext(RunAgentInput input) {
+        String userId = null;
+        try {
+            userId = input.getForwardedProps().get("userId").toString();
+        } catch (Exception ignored) {
+        }
         return RuntimeContext.builder()
+                .userId(userId)
                 .sessionId(input.getThreadId())
                 .put(RunAgentInput.class, input)
                 .put(RUNTIME_CONTEXT_THREAD_ID_KEY, input.getThreadId())
